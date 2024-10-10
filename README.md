@@ -56,3 +56,10 @@ Quang Huy Phan:
          Remote hinzufügen -->  Wenn du lokal Änderungen gemacht hast und sie ins Remote-Repository hochladen möchtest, gehe zu Git push --> Änderungen vom Remote-Repository holen git pull
 
 
+5. Nützliche Git-Tools und Plabormen (z. B. GitHub)
+         
+         GitHub: Eine der bekanntesten Plattformen zur Verwaltung von Git-Repositories. Sie bietet Hosting für öffentliche und private Repositories, Tools zur Zusammenarbeit, Issue-Tracking und CI/CD-Integration.
+
+         Gitlab: Eine Plattform ähnlich wie GitHub, aber mit zusätzlichen Funktionen wie integrierter CI/CD-Pipeline, Issue-Tracking und DevOps-Tools.
+
+         Bitbucket:  Eine Git-Plattform, die von Atlassian entwickelt wurde. Sie integriert sich gut mit anderen Atlassian-Tools wie Jira und Confluence.
