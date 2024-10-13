@@ -36,43 +36,30 @@
 
 ---
 
-## 3. Branches und ihre Nutzung
 
-Ein **Branch** in Git ist wie ein paralleler Entwicklungszweig, auf dem Sie unabhängig von anderen Änderungen arbeiten können. Standardmäßig gibt es den `main` oder `master` Branch, aber für Feature-Entwicklungen oder Bugfixes können eigene Branches angelegt werden.
+3. Branches und ihre Nutzung, Umgang mit Merge-Konflikten
+   
+   Branches ermöglichen parallele Entwicklung.
+   
+   **Befehle**:
+   
+         Branch erstellen: git branch <branch-name>
+   
+         Branch wechseln: git checkout <branch-name>
+   
+         Branch mergen: git merge <branch-name>
+   
+         Branch löschen: git branch -d <branch-name>
+   
+   Umgang mit Merge-Konflikten: Konflikte treten auf, wenn zwei Branches denselben Code ändern.
 
-### Branch-Befehle:
-- `git branch <name>`: Erstellt einen neuen Branch.
-- `git checkout <name>`: Wechselt zu einem Branch.
-- `git merge <branch>`: Führt einen Branch in den aktuellen Branch zusammen.
+   **Konflikt lösen**:
 
----
-
-## 4. Umgang mit Merge-Konflikten
-
-**Merge-Konflikte** treten auf, wenn Git nicht automatisch entscheiden kann, welche Änderungen übernommen werden sollen. Dies geschieht oft, wenn mehrere Entwickler denselben Teil einer Datei ändern.
-
-### Konfliktbehebungsschritte:
-1. Git wird betroffene Dateien als „conflicted“ kennzeichnen.
-2. Öffnen Sie die Datei und entscheiden Sie, welche Änderung(en) Sie behalten möchten.
-3. Markieren Sie die Konfliktauflösung und führen Sie `git add` und `git commit` aus, um die Änderungen zu speichern.
-
----
-
-## 5. Git mit IntelliJ/PyCharm verwenden
-
-**Git in IntelliJ/PyCharm** erleichtert die Versionskontrolle durch eine grafische Benutzeroberfläche, die es einfach macht, Änderungen zu verfolgen und zu integrieren. Die Integration bietet:
-- **Lokale Repositories**: Änderungen werden lokal gespeichert, bevor sie ins Remote-Repository übertragen werden.
-- **Remote-Repositories**: Einbindung von Plattformen wie GitHub, um Code online zu speichern und zu teilen.
-
----
-
-## 6. Nützliche Git-Tools und Plattformen
-
-Es gibt viele Tools und Plattformen, die mit Git zusammenarbeiten. Einige davon sind:
-
-- **GitHub**: Eine Web-Plattform zur gemeinsamen Nutzung und Verwaltung von Git-Repositories. Es unterstützt Teamzusammenarbeit, Issues-Tracking, und vieles mehr.
-- **GitLab**: Ähnlich wie GitHub, bietet aber zusätzliche Funktionen wie integrierte CI/CD-Pipelines.
-- **Bitbucket**: Eine weitere Plattform zur Verwaltung von Git-Repositories, besonders beliebt in Unternehmensumgebungen.
-
----
-
+            Git zeigt Konflikte an.
+         
+            Datei manuell bearbeiten (Konfliktmarkierungen entfernen).
+   
+            Änderungen hinzufügen: git add <file>
+   
+            Committen: git commit
+.
