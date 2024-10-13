@@ -1,22 +1,40 @@
-# Moderne-Softwareentwicklung-W24---Gruppe-6
-
-Quang Huy Phan:
-
-1. Was ist Git und warum sollte es verwendet werden?
-
-   
-      Git ist ein verteiltes Versionskontrollsystem, das verwendet wird, um Änderungen an Dateien, insbesondere Quellcode, zu verfolgen. Es ermöglicht Entwicklern, verschiedene Versionen ihrer Projekte zu verwalten, auf ältere Versionen zurückzugreifen und effizient in Teams zusammenzuarbeiten. Git bietet durch seine verteilte Struktur Flexibilität, Sicherheit und Unabhängigkeit, da jeder Entwickler eine vollständige Kopie des Projekts lokal besitzt. Es ist ideal für die Verwaltung von Code-Änderungen und die Koordination von mehreren Entwicklern in Projekten.
 
 
-2. Grundlegende Git-Befehle (z. B. git init, git add, git commit, git push)
-  
-         **git init**: Dieser Befehl wird verwendet, um ein neues Repository zu erstellen.
-   
-         **git add**: Fügt Änderungen an Dateien zum Staging-Bereich hinzu, sodass sie für den nächsten Commit berücksichtigt werden.
+# Git Handout
 
-         **git commit**: Speichert die Änderungen, die sich im Staging-Bereich befinden, dauerhaft im Repository.
+## Inhalt
+1. [Was ist Git und warum sollte es verwendet werden?](#was-ist-git-und-warum-sollte-es-verwendet-werden)
+2. [Grundlegende Git-Befehle](#grundlegende-git-befehle)
+3. [Branches und ihre Nutzung](#branches-und-ihre-nutzung)
+4. [Umgang mit Merge-Konflikten](#umgang-mit-merge-konflikten)
+5. [Git mit IntelliJ/PyCharm verwenden](#git-mit-intellijpycharm-verwenden)
+6. [Nützliche Git-Tools und Plattformen](#nützliche-git-tools-und-plattformen)
 
-         **git push**: Überträgt die lokalen Commits in das Remote-Repository (z. B. auf GitHub).
+---
+
+## 1. Was ist Git und warum sollte es verwendet werden?
+
+**Git** ist ein verteiltes Versionskontrollsystem, das von Entwicklern verwendet wird, um den Quellcode von Projekten zu verfolgen und zu verwalten. Es ermöglicht mehreren Entwicklern, gleichzeitig an verschiedenen Teilen eines Projekts zu arbeiten, ohne dabei Dateien oder Änderungen zu überschreiben.
+
+### Vorteile von Git:
+- **Versionskontrolle**: Behalten Sie den Überblick über alle Änderungen im Projekt.
+- **Zusammenarbeit**: Erlaubt es Teams, parallel zu arbeiten und Änderungen zu integrieren.
+- **Verteiltes System**: Jeder Entwickler hat eine vollständige Kopie des Projekts auf seinem Rechner.
+- **Rückverfolgbarkeit**: Sie können jederzeit zu einem vorherigen Stand zurückkehren.
+
+---
+
+## 2. Grundlegende Git-Befehle
+
+| Befehl           | Beschreibung |
+|------------------|--------------|
+| `git init`       | Erstellt ein neues, leeres Git-Repository. |
+| `git add <datei>`| Fügt eine Datei zur Staging-Area hinzu. |
+| `git commit -m "Nachricht"` | Speichert die Änderungen dauerhaft mit einer Commit-Nachricht. |
+| `git push`       | Überträgt die lokalen Commits zum Remote-Repository (z.B. GitHub). |
+| `git pull`       | Holt und integriert Änderungen vom Remote-Repository in das lokale Repository. |
+
+---
 
 
 3. Branches und ihre Nutzung, Umgang mit Merge-Konflikten
@@ -44,22 +62,4 @@ Quang Huy Phan:
             Änderungen hinzufügen: git add <file>
    
             Committen: git commit
-
-4. Git mit IntelliJ/PyCharm benutzen: Local Repository und Remote Repository
-
-   **Local Repository**: 
-            
-         Git initialisieren --> gitignore hinzufügen --> Repository klonen -->  Lokale Änderungen tracken und committen
-
-   **Remote Repository**: 
-
-         Remote hinzufügen -->  Wenn du lokal Änderungen gemacht hast und sie ins Remote-Repository hochladen möchtest, gehe zu Git push --> Änderungen vom Remote-Repository holen git pull
-
-
-5. Nützliche Git-Tools und Plabormen (z. B. GitHub)
-         
-         GitHub: Eine der bekanntesten Plattformen zur Verwaltung von Git-Repositories. Sie bietet Hosting für öffentliche und private Repositories, Tools zur Zusammenarbeit, Issue-Tracking und CI/CD-Integration.
-
-         Gitlab: Eine Plattform ähnlich wie GitHub, aber mit zusätzlichen Funktionen wie integrierter CI/CD-Pipeline, Issue-Tracking und DevOps-Tools.
-
-         Bitbucket:  Eine Git-Plattform, die von Atlassian entwickelt wurde. Sie integriert sich gut mit anderen Atlassian-Tools wie Jira und Confluence.
+.
