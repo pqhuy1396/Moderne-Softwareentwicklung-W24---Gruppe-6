@@ -70,4 +70,8 @@
 
 <!-- erstellt von: Rinor -->
 
-## 
+## 5. Git mit IntelliJ/PyCharm verwenden
+
+**Git in IntelliJ/PyCharm** erleichtert die Versionskontrolle durch eine grafische Benutzeroberfläche, die es einfach macht, Änderungen zu verfolgen und zu integrieren. Die Integration bietet:
+- **Local Repository**: Änderungen werden lokal gespeichert, bevor sie ins Remote-Repository übertragen werden.
+- **Remote Repository**: Einbindung von Plattformen wie GitHub, um Code online zu speichern und zu teilen. 
