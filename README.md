@@ -65,8 +65,6 @@
             Änderungen hinzufügen: git add <file>
    
             Committen: git commit
-.
->>>>>>> 4b06696941e0c5e7fae141f90404de9ad7377e3c
 
 <!-- erstellt von: Rinor -->
 
