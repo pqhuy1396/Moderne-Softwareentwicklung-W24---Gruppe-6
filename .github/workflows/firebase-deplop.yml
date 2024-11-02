@@ -44,11 +44,9 @@ jobs:
           java-version: '17'
 
       - name: Install Firebase CLI
-        uses: w9jds/firebase-action@v1
-        with:
-          args: login:ci --token "${{ secrets.FIREBASE_TOKEN }}"
+        run: curl -sL https://firebase.tools | bash
 
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v1
         with:
-          args: deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
+          args: deploy --only hosting --token "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GRUPPE6_BACKEND }}"
