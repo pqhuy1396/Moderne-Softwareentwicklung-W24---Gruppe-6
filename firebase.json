@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "gruppe6-backend.web.app",
     "public": "build/libs",
     "ignore": [
       "firebase.json",
