@@ -46,10 +46,8 @@ jobs:
       - name: Install Firebase CLI
         run: curl -sL https://firebase.tools | bash
 
-      - name: Deploy to Firebase Hosting
-        uses: w9jds/firebase-action@master
-        with:
-          args: firebase deploy
+      - name: Deploy to Firebase
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only hosting
    
