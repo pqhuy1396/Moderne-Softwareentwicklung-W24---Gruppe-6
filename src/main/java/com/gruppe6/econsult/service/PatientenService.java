@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class PatientenService {
@@ -32,5 +33,13 @@ public class PatientenService {
 
     public Optional<Patient> getPatientByUsername(String username) {
         return patientRepository.findByUsername(username);
+    }
+
+    public Optional<Patient> getPatientByEmail(String email) {
+        return patientRepository.findByEmail(email);
+    }
+
+    public Long generateRandomId() {
+        return 1000000000L + new Random().nextLong() % 9000000000L;
     }
 }

@@ -22,7 +22,7 @@ public class Arzt {
     // Constructors
     public Arzt() {}
 
-    public Arzt(String name, Boolean roll, String fachrichtung, String lizenznummer, String email, String username, String password) {
+    public Arzt(Long id,String name, Boolean roll, String fachrichtung, String lizenznummer, String email, String username, String password) {
         this.name = name;
         this.roll = roll;
         this.fachrichtung = fachrichtung;

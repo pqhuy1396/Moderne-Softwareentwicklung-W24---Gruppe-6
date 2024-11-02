@@ -1,15 +1,19 @@
 package com.gruppe6.econsult.controller;
 
-import com.gruppe6.econsult.model.Patient;
-import com.gruppe6.econsult.model.Arzt;
-import com.gruppe6.econsult.service.PatientenService;
-import com.gruppe6.econsult.service.ArztService;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import com.gruppe6.econsult.model.Arzt;
+import com.gruppe6.econsult.model.Patient;
+import com.gruppe6.econsult.service.ArztService;
+import com.gruppe6.econsult.service.PatientenService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -57,12 +61,13 @@ public class AuthController {
             @RequestParam(required = false) String address,       // required for patients
             @RequestParam(required = false) String birthDate      // required for patients
     ) {
+        Long id = roll ? arztService.generateRandomId() : patientenService.generateRandomId();
         if (roll) { // Registering as a doctor
             if (fachrichtung == null || lizenznummer == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing fachrichtung or lizenznummer for Arzt");
             }
 
-            Arzt newArzt = new Arzt(name, true, fachrichtung, lizenznummer, email, username, password);
+            Arzt newArzt = new Arzt(id, name, true, fachrichtung, lizenznummer, email, username, password);
             arztService.saveArzt(newArzt);
             return ResponseEntity.status(HttpStatus.CREATED).body("Arzt registered successfully");
 
@@ -71,7 +76,7 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing address or birthDate for Patient");
             }
 
-            Patient newPatient = new Patient(name, false, address, birthDate, email, username, password);
+            Patient newPatient = new Patient(id, name, false, address, birthDate, email, username, password);
             patientenService.savePatient(newPatient);
             return ResponseEntity.status(HttpStatus.CREATED).body("Patient registered successfully");
         }

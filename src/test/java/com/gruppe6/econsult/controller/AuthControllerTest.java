@@ -35,7 +35,7 @@ class AuthControllerTest {
 
     @Test
     void testLoginAsDoctor() {
-        Arzt mockArzt = new Arzt("Dr. John Doe", true, "Cardiology", "12345", "doctor@example.com", "doctorUser", "password123");
+        Arzt mockArzt = new Arzt(123L,"Dr. John Doe", true, "Cardiology", "12345", "doctor@example.com", "doctorUser", "password123");
         when(arztService.getArztByUsername("doctorUser")).thenReturn(Optional.of(mockArzt));
 
         ResponseEntity<String> response = authController.login("doctorUser", "password123");
@@ -46,7 +46,7 @@ class AuthControllerTest {
 
     @Test
     void testLoginAsPatient() {
-        Patient mockPatient = new Patient("Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
+        Patient mockPatient = new Patient(123L,"Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
         when(patientenService.getPatientByUsername("patientUser")).thenReturn(Optional.of(mockPatient));
 
         ResponseEntity<String> response = authController.login("patientUser", "password456");
@@ -68,7 +68,7 @@ class AuthControllerTest {
 
     @Test
     void testRegisterDoctor() {
-        Arzt newArzt = new Arzt("Dr. Smith", true, "Neurology", "98765", "drsmith@example.com", "drsmith", "securePass");
+        Arzt newArzt = new Arzt(123L, "Dr. Smith", true, "Neurology", "98765", "drsmith@example.com", "drsmith", "securePass");
 
         ResponseEntity<String> response = authController.register(
                 newArzt.getName(), newArzt.getEmail(), newArzt.getUsername(), newArzt.getPassword(),
@@ -80,7 +80,7 @@ class AuthControllerTest {
 
     @Test
     void testRegisterPatient() {
-        Patient newPatient = new Patient("Alice Johnson", false, "alice@example.com", "1992-05-15", "456 Avenue", "alice", "pass123");
+        Patient newPatient = new Patient(123L,"Alice Johnson", false, "alice@example.com", "1992-05-15", "456 Avenue", "alice", "pass123");
 
         ResponseEntity<String> response = authController.register(
                 newPatient.getName(), newPatient.getEmail(), newPatient.getUsername(), newPatient.getPassword(),

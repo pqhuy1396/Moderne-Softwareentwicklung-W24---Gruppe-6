@@ -1,10 +1,10 @@
 package com.gruppe6.econsult.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Column;
 
 @Entity
 public class Patient {
@@ -26,7 +26,7 @@ public class Patient {
     // Constructors
     public Patient() {}
 
-    public Patient(String name,Boolean roll, String email, String birthDate, String address, String username, String password) {
+    public Patient(Long id,String name,Boolean roll, String email, String birthDate, String address, String username, String password) {
         this.name = name;
         this.email = email;
         this.roll = roll;

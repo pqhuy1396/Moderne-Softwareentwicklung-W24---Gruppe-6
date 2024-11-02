@@ -30,7 +30,7 @@ class PatientenServiceTest {
 
     @Test
     void testGetPatientById() {
-        Patient patient = new Patient("Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
+        Patient patient = new Patient(112L,"Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
         when(patientRepository.findPatientById(1L)).thenReturn(Optional.of(patient));
 
         Optional<Patient> result = patientenService.getPatientById(1L);
@@ -41,7 +41,7 @@ class PatientenServiceTest {
 
     @Test
     void testSavePatient() {
-        Patient patient = new Patient("Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
+        Patient patient = new Patient(112L,"Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
         when(patientRepository.save(patient)).thenReturn(patient);
 
         Patient result = patientenService.savePatient(patient);
