@@ -38,10 +38,6 @@ jobs:
       - name: Prepare database directory
         run: mkdir -p database
 
-      # Step 6: Add SQLite database file
-      - name: Copy SQLite database
-        run: cp database/econsult.db database/econsult.db
-
       # Step 7: Build the application
       - name: Build with Gradle
         run: ./gradlew build
