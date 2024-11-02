@@ -3,6 +3,7 @@
 
 
 ## Inhalt
+
 1. [Was ist Git und warum sollte es verwendet werden?](#was-ist-git-und-warum-sollte-es-verwendet-werden)
 2. [Grundlegende Git-Befehle](#grundlegende-git-befehle)
 3. [Branches und ihre Nutzung](#branches-und-ihre-nutzung)
