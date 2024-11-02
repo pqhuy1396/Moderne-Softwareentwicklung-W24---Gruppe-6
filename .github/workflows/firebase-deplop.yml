@@ -3,7 +3,7 @@ name: Firebase CI/CD for Spring Boot App
 on:
   push:
     branches:
-      - master 
+      - master
 
 jobs:
   build-and-deploy:
@@ -30,15 +30,27 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # Step 4: Build the application
+      # Step 4: Make gradlew executable
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # Step 5: Ensure database directory exists
+      - name: Prepare database directory
+        run: mkdir -p database
+
+      # Step 6: Add SQLite database file
+      - name: Copy SQLite database
+        run: cp database/econsult.db database/econsult.db
+
+      # Step 7: Build the application
       - name: Build with Gradle
         run: ./gradlew build
 
-      # Step 5: Run tests
+      # Step 8: Run tests
       - name: Run tests
         run: ./gradlew test
 
-      # Step 6: Deploy to Firebase Hosting
+      # Step 9: Deploy to Firebase Hosting
       - name: Deploy to Firebase Hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
