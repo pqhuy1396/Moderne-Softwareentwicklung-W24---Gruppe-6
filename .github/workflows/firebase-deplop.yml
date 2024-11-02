@@ -46,15 +46,8 @@ jobs:
       - name: Install Firebase CLI
         run: curl -sL https://firebase.tools | bash
 
-      - name: Set up Firebase authentication
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
-        run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > $GOOGLE_APPLICATION_CREDENTIALS
-
       - name: Deploy to Firebase Hosting
-        run: firebase deploy --only hosting
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-service-account.json
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GRUPPE6_BACKEND }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only hosting
    
