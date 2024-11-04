@@ -50,12 +50,12 @@ jobs:
       - name: Build with Gradle
         run: gradle build
 
-      - run: ls -a
-      - name: Install Firebase CLI
-        run: curl -sL https://firebase.tools | bash
+      #- run: ls -a
+      #- name: Install Firebase CLI
+      #  run: curl -sL https://firebase.tools | bash
 
-      - name: Deploy to Firebase
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase deploy --only hosting
+      #- name: Deploy to Firebase
+      #  env:
+      #    FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #  run: firebase deploy --only hosting
    
