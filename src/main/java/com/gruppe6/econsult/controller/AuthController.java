@@ -44,7 +44,6 @@ public class AuthController {
             }
         }
 
-        // Incorrect credentials
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
