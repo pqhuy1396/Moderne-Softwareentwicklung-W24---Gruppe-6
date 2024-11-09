@@ -28,20 +28,23 @@ public class AnfrageController {
     private AnfrageService anfrageService;
     private PdfExportAnfrageService PdfExportAnfrageService;
 
-
     @PostMapping("/create")
     public ResponseEntity<Anfrage> createAnfrage(
             @RequestParam Long patientId,
             @RequestParam Long arztId,
             @RequestParam String foto,
             @RequestParam String beschreibung) {
-
-        try {
-            Anfrage anfrage = anfrageService.createAnfrage(patientId, arztId, foto, beschreibung);
-            return ResponseEntity.status(HttpStatus.CREATED).body(anfrage);
-        } catch (IllegalArgumentException e) {
+        if (patientId == null || arztId == null || beschreibung == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } else {
+            try {
+                Anfrage anfrage = anfrageService.createAnfrage(patientId, arztId, foto, beschreibung);
+                return ResponseEntity.status(HttpStatus.CREATED).body(anfrage);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
         }
+
     }
 
     @GetMapping("/arzt/{arztId}")
@@ -58,19 +61,27 @@ public class AnfrageController {
 
     @GetMapping("/export/{anfrageId}")
     public ResponseEntity<byte[]> exportAnfrageToPdf(@PathVariable Long anfrageId) throws IOException {
-        byte[] pdfData = PdfExportAnfrageService.exportAnfrageToPdf(anfrageId);
+        if (anfrageId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        try {
+            byte[] pdfData = PdfExportAnfrageService.exportAnfrageToPdf(anfrageId);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "anfrage_report.pdf");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "anfrage_report.pdf");
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfData);
+            return ResponseEntity.ok().headers(headers).body(pdfData);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PutMapping("/complete/{anfrageId}")
     public ResponseEntity<Anfrage> completeAnfrage(@PathVariable Long anfrageId) {
+        if (anfrageId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         try {
             Anfrage completedAnfrage = anfrageService.completeAnfrage(anfrageId);
             return ResponseEntity.ok(completedAnfrage);

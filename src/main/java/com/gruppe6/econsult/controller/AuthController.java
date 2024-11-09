@@ -54,18 +54,20 @@ public class AuthController {
             @RequestParam String email,
             @RequestParam String username,
             @RequestParam String password,
-            @RequestParam Boolean roll,  // true for doctor, false for patient
-            @RequestParam(required = false) String fachrichtung,  // required for doctors
-            @RequestParam(required = false) String lizenznummer,  // required for doctors
-            @RequestParam(required = false) String address,       // required for patients
-            @RequestParam(required = false) String birthDate      // required for patients
+            @RequestParam Boolean roll, // true for doctor, false for patient
+            @RequestParam(required = false) String fachrichtung, // required for doctors
+            @RequestParam(required = false) String lizenznummer, // required for doctors
+            @RequestParam(required = false) String address, // required for patients
+            @RequestParam(required = false) String birthDate // required for patients
     ) {
-        Long id = roll ? arztService.generateRandomId() : patientenService.generateRandomId();
+        if (roll == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid role specified");
+        }
         if (roll) { // Registering as a doctor
             if (fachrichtung == null || lizenznummer == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing fachrichtung or lizenznummer for Arzt");
             }
-
+            Long id = arztService.generateRandomId();
             Arzt newArzt = new Arzt(id, name, true, fachrichtung, lizenznummer, email, username, password);
             arztService.saveArzt(newArzt);
             return ResponseEntity.status(HttpStatus.CREATED).body("Arzt registered successfully");
@@ -74,7 +76,7 @@ public class AuthController {
             if (address == null || birthDate == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing address or birthDate for Patient");
             }
-
+            Long id = patientenService.generateRandomId();
             Patient newPatient = new Patient(id, name, false, address, birthDate, email, username, password);
             patientenService.savePatient(newPatient);
             return ResponseEntity.status(HttpStatus.CREATED).body("Patient registered successfully");
