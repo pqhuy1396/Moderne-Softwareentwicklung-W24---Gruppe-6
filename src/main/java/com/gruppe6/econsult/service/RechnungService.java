@@ -28,7 +28,7 @@ public class RechnungService {
         String rechnungNummer = UUID.randomUUID().toString(); // Generiert eine eindeutige Rechnungsnummer
         Rechnung rechnung = new Rechnung(rechnungNummer, patientId);
         rechnung.setDatum(new Date()); // Setzt das aktuelle Datum
-        rechnung.setBetrag(20.0); // Setzt den festen Betrag
+        rechnung.setBetrag(20); // Setzt den festen Betrag
         return rechnungRepository.save(rechnung);
     }
 

@@ -25,7 +25,7 @@ public class Rechnung {
         this.datum = new Date(); // aktuelles Datum
         this.rechnungNummer = rechnungNummer;
         this.idPatient = idPatient;
-        this.betrag = 20.0; // Festgelegter Betrag pro Diagnose
+        this.betrag = betrag; // Festgelegter Betrag pro Diagnose
     }
 
     // Getter und Setter
@@ -37,4 +37,8 @@ public class Rechnung {
     public void setDatum(Date datum) { this.datum = datum; }
     public void setRechnungNummer(String rechnungNummer) { this.rechnungNummer = rechnungNummer; }
     public void setIdPatient(Long idPatient) { this.idPatient = idPatient; }
+
+    public void setBetrag(double betrag) {
+        this.betrag = betrag;
+    }
 }
