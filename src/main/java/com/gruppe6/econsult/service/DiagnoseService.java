@@ -20,22 +20,25 @@ public class DiagnoseService {
     @Autowired
     private AnfrageRepository anfrageRepository;
 
+    // Erstellt eine neue Diagnose, falls die Anfrage existiert
     public Diagnose createDiagnose(Long anfrageId, String diagnoseText) {
         Optional<Anfrage> anfrageOptional = anfrageRepository.findById(anfrageId);
         if (anfrageOptional.isPresent()) {
             Anfrage anfrage = anfrageOptional.get();
             Diagnose diagnose = new Diagnose(anfrage, diagnoseText, new Date(), anfrage.getArztId());
-            return diagnoseRepository.save(diagnose);
+            return diagnoseRepository.save(diagnose); // Speichert die neue Diagnose in der Datenbank
         } else {
-            throw new IllegalArgumentException("Anfrage not found with ID: " + anfrageId);
+            throw new IllegalArgumentException("Anfrage nicht gefunden mit ID: " + anfrageId); // Wirft eine Ausnahme, wenn die Anfrage nicht gefunden wird
         }
     }
 
+    // Ruft eine Diagnose basierend auf der Anfrage-ID ab
     public Diagnose getDiagnoseByAnfrageId(Long anfrageId) {
-        return diagnoseRepository.findByAnfrageId(anfrageId).orElse(null);
+        return diagnoseRepository.findByAnfrageId(anfrageId).orElse(null); // Gibt die Diagnose oder null zurück, falls nicht gefunden
     }
 
+    // Ruft alle Diagnosen für eine bestimmte Arzt-ID ab
     public List<Diagnose> getDiagnosenForArzt(Long arztId) {
-        return diagnoseRepository.findByArztId(arztId);
+        return diagnoseRepository.findByArztId(arztId); // Gibt die Liste der Diagnosen zurück
     }
 }
