@@ -28,6 +28,10 @@ public class AnfrageService {
     public List<Anfrage> getAnfragenForArzt(Long arztId) {
         return anfrageRepository.findAnfragenByArztId(arztId);
     }
+    
+     public Optional<Anfrage> getAnfrageById(Long anfrageId) {
+        return anfrageRepository.findById(anfrageId);
+    }
 
     public Anfrage completeAnfrage(Long anfrageId) {
         Optional<Anfrage> anfrageOptional = anfrageRepository.findById(anfrageId);
