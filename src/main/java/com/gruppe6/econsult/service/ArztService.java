@@ -1,5 +1,6 @@
 package com.gruppe6.econsult.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -18,7 +19,10 @@ public class ArztService {
     public Optional<Arzt> getArztById(Long id) {
         return arztRepository.findArztById(id);
     }
-
+    
+     public List<Arzt> getAllArzt() {
+        return arztRepository.findAll();
+    }
     public Arzt saveArzt(Arzt arzt) {
         return arztRepository.save(arzt);
     }

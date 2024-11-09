@@ -33,9 +33,11 @@ class AuthControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    // Tests for login functionality
     @Test
-    void testLoginAsDoctor() {
-        Arzt mockArzt = new Arzt(123L,"Dr. John Doe", true, "Cardiology", "12345", "doctor@example.com", "doctorUser", "password123");
+    void loginAsDoctor_case1() {
+        // Test case: Successful login as a doctor
+        Arzt mockArzt = new Arzt(123L, "Dr. John Doe", true, "Cardiology", "12345", "doctor@example.com", "doctorUser", "password123");
         when(arztService.getArztByUsername("doctorUser")).thenReturn(Optional.of(mockArzt));
 
         ResponseEntity<String> response = authController.login("doctorUser", "password123");
@@ -45,8 +47,9 @@ class AuthControllerTest {
     }
 
     @Test
-    void testLoginAsPatient() {
-        Patient mockPatient = new Patient(123L,"Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
+    void loginAsPatient_case2() {
+        // Test case: Successful login as a patient
+        Patient mockPatient = new Patient(456L, "Jane Doe", false, "patient@example.com", "01-01-1990", "123 Street", "patientUser", "password456");
         when(patientenService.getPatientByUsername("patientUser")).thenReturn(Optional.of(mockPatient));
 
         ResponseEntity<String> response = authController.login("patientUser", "password456");
@@ -56,7 +59,8 @@ class AuthControllerTest {
     }
 
     @Test
-    void testLoginInvalidCredentials() {
+    void loginInvalidCredentials_case3() {
+        // Test case: Invalid credentials
         when(arztService.getArztByUsername("wrongUser")).thenReturn(Optional.empty());
         when(patientenService.getPatientByUsername("wrongUser")).thenReturn(Optional.empty());
 
@@ -66,9 +70,12 @@ class AuthControllerTest {
         assertEquals("Invalid username or password", response.getBody());
     }
 
+    // Tests for register functionality
     @Test
-    void testRegisterDoctor() {
+    void registerDoctor_case1() {
+        // Test case: Successful registration as a doctor
         Arzt newArzt = new Arzt(123L, "Dr. Smith", true, "Neurology", "98765", "drsmith@example.com", "drsmith", "securePass");
+        when(arztService.generateRandomId()).thenReturn(123L);
 
         ResponseEntity<String> response = authController.register(
                 newArzt.getName(), newArzt.getEmail(), newArzt.getUsername(), newArzt.getPassword(),
@@ -79,8 +86,10 @@ class AuthControllerTest {
     }
 
     @Test
-    void testRegisterPatient() {
-        Patient newPatient = new Patient(123L,"Alice Johnson", false, "alice@example.com", "1992-05-15", "456 Avenue", "alice", "pass123");
+    void registerPatient_case2() {
+        // Test case: Successful registration as a patient
+        Patient newPatient = new Patient(456L, "Alice Johnson", false, "alice@example.com", "1992-05-15", "456 Avenue", "alice", "pass123");
+        when(patientenService.generateRandomId()).thenReturn(456L);
 
         ResponseEntity<String> response = authController.register(
                 newPatient.getName(), newPatient.getEmail(), newPatient.getUsername(), newPatient.getPassword(),
@@ -88,5 +97,38 @@ class AuthControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Patient registered successfully", response.getBody());
+    }
+
+    @Test
+    void registerDoctor_missingFields_case3() {
+        // Test case: Missing required fields for doctor registration
+        ResponseEntity<String> response = authController.register(
+                "Dr. Smith", "drsmith@example.com", "drsmith", "securePass",
+                true, null, null, null, null);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Missing fachrichtung or lizenznummer for Arzt", response.getBody());
+    }
+
+    @Test
+    void registerPatient_missingFields_case4() {
+        // Test case: Missing required fields for patient registration
+        ResponseEntity<String> response = authController.register(
+                "Alice Johnson", "alice@example.com", "alice", "pass123",
+                false, null, null, null, null);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Missing address or birthDate for Patient", response.getBody());
+    }
+
+    @Test
+    void registerInvalidRole_case5() {
+        // Test case: Invalid role (e.g., roll is null)
+        ResponseEntity<String> response = authController.register(
+                "Invalid User", "invalid@example.com", "invalidUser", "password123",
+                null, null, null, null, null);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals("Invalid role specified", response.getBody());
     }
 }
