@@ -12,17 +12,18 @@ public class Diagnose {
 
     @OneToOne
     @JoinColumn(name = "anfrage_id", nullable = false)
-    private Anfrage anfrage;
+    private Anfrage anfrage; // Verknüpft die Diagnose mit einer Anfrage
 
-    private String diagnoseText;
-    private Date erstelltAm;
+    private String diagnoseText; // Speichert den Text der Diagnose
+    private Date erstelltAm; // Speichert das Erstellungsdatum
 
-    private Long arztId;
+    private Long arztId; // Identifiziert den zugehörigen Arzt
 
-    // Constructors
+    // Standardkonstruktor
     public Diagnose() {
     }
 
+    // Konstruktor mit Parametern
     public Diagnose(Anfrage anfrage, String diagnoseText, Date erstelltAm, Long arztId) {
         this.anfrage = anfrage;
         this.diagnoseText = diagnoseText;
@@ -30,7 +31,7 @@ public class Diagnose {
         this.arztId = arztId;
     }
 
-    // Getters und Setters
+    // Getter und Setter
     public Long getId() {
         return id;
     }

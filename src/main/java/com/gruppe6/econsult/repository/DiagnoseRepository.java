@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiagnoseRepository extends JpaRepository<Diagnose, Long> {
-    Optional<Diagnose> findByAnfrageId(Long anfrageId);
-    List<Diagnose> findByArztId(Long arztId);
+    Optional<Diagnose> findByAnfrageId(Long anfrageId); // Benutzerdefinierte Abfragemethode zum Finden anhand der Anfrage-ID
+    List<Diagnose> findByArztId(Long arztId); // Benutzerdefinierte Abfragemethode zum Finden anhand der Arzt-ID
 }
