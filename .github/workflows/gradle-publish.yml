@@ -29,28 +29,28 @@ jobs:
       - name: Run Tests
         run: gradle clean test
   
-      - name: Generate Code Coverage Report
-        run: gradle jacocoTestReport
-
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      
       - name: Build with Gradle
         run: gradle build
       
-    #  - name: Cache SonarCloud packages
-    #   uses: actions/cache@v4
-    #    with:
-    #      path: ~/.sonar/cache
-    #      key: ${{ runner.os }}-sonar
-    #     restore-keys: ${{ runner.os }}-sonar
-    #  - name: Cache Gradle packages
-    #    uses: actions/cache@v4
-    #    with:
-    #      path: ~/.gradle/caches
-    #      key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-    #      restore-keys: ${{ runner.os }}-gradle
-    #  - name: Build and analyze
-    #    env:
-    #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #    run: ./gradlew build sonar --info
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonar --info
       
 
   deploy:
@@ -72,12 +72,12 @@ jobs:
       - name: Build with Gradle
         run: gradle build
 
-      #- run: ls -a
-      #- name: Install Firebase CLI
-      #  run: curl -sL https://firebase.tools | bash
+      - run: ls -a
+      - name: Install Firebase CLI
+        run: curl -sL https://firebase.tools | bash
 
-      #- name: Deploy to Firebase
-      #  env:
-      #    FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      #  run: firebase deploy --only hosting
+      - name: Deploy to Firebase
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --only hosting
    
