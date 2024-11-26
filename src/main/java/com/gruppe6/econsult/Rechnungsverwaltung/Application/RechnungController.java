@@ -1,11 +1,11 @@
-package com.gruppe6.econsult.Abrechnungverwaltung.Application;
+package com.gruppe6.econsult.Rechnungsverwaltung.Application;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.gruppe6.econsult.Abrechnungverwaltung.Entity.Rechnung;
-import com.gruppe6.econsult.Abrechnungverwaltung.Repository.RechnungRepository;
+import com.gruppe6.econsult.Rechnungsverwaltung.Entity.Rechnung;
+import com.gruppe6.econsult.Rechnungsverwaltung.Repository.RechnungRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

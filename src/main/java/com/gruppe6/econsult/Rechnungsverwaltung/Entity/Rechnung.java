@@ -1,4 +1,4 @@
-package  com.gruppe6.econsult.Abrechnungverwaltung.Entity;
+package  com.gruppe6.econsult.Rechnungsverwaltung.Entity;
 
 import java.util.Date;
 
