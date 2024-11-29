@@ -1,9 +1,6 @@
-package com.gruppe6.econsult.AnfrageverwaltungTest.Service;
+package com.gruppe6.econsult.AnfrageverwaltungTest.application.service;
 
 
-import com.gruppe6.econsult.Anfragenverwaltung.application.service.AnfrageService;
-import com.gruppe6.econsult.Anfragenverwaltung.domain.model.Anfrage;
-import com.gruppe6.econsult.Anfragenverwaltung.infrastructure.repository.AnfrageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,6 +14,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+import com.gruppe6.econsult.Anfragenverwaltung.application.service.AnfrageService;
+import com.gruppe6.econsult.Anfragenverwaltung.domain.model.Anfrage;
+import com.gruppe6.econsult.Anfragenverwaltung.infrastructure.repository.AnfrageRepository;
 
 
 class AnfrageServiceTest {

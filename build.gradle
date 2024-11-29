@@ -27,6 +27,8 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'com.itextpdf:itext7-core:7.1.16'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
