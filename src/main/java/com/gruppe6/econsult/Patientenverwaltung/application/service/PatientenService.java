@@ -13,8 +13,12 @@ import java.util.Random;
 @Service
 public class PatientenService {
 
+    private final PatientRepository patientRepository;
+
     @Autowired
-    private PatientRepository patientRepository;
+    public PatientenService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+    }
 
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();

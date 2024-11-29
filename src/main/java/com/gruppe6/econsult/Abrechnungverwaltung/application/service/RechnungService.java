@@ -1,23 +1,26 @@
 package com.gruppe6.econsult.Abrechnungverwaltung.application.service;
 
+import com.gruppe6.econsult.Abrechnungverwaltung.domain.model.Rechnung;
+import com.gruppe6.econsult.Abrechnungverwaltung.infrastructure.reponsitory.RechnungRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 
-import com.gruppe6.econsult.Abrechnungverwaltung.domain.model.Rechnung;
-import com.gruppe6.econsult.Abrechnungverwaltung.infrastructure.reponsitory.RechnungRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 
 @Service
 public class RechnungService {
 
+    private final RechnungRepository rechnungRepository;
+
     @Autowired
-    private RechnungRepository rechnungRepository;
+    public RechnungService(RechnungRepository rechnungRepository) {
+        this.rechnungRepository = rechnungRepository;
+    }
 
     /**
      * Erstellt eine neue Rechnung für einen bestimmten Patienten

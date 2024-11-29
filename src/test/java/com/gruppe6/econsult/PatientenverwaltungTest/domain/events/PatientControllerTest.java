@@ -5,128 +5,136 @@ import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientController;
 import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
+@WebMvcTest(PatientController.class)
 class PatientControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private PatientenService patientenService;
 
-    @InjectMocks
-    private PatientController patientController;
-
     @Test
-    void getPatientById_shouldReturnPatientWhenFound() {
+    void getPatientById_shouldReturnPatientWhenFound() throws Exception {
         // Arrange
         Long patientId = 1L;
-        Patient patient = new Patient(patientId, "John Doe", false, "john.doe@example.com", "1990-01-01", "123 Main St", "johndoe", "password");
+        Patient mockPatient = new Patient(patientId, "Max Mustermann", false, "123 Main St", "1990-01-01", "mustermann@example.com", "max_muster", "password");
 
-        when(patientenService.getPatientById(patientId)).thenReturn(Optional.of(patient));
+        when(patientenService.getPatientById(patientId)).thenReturn(Optional.of(mockPatient));
 
-        // Act
-        ResponseEntity<Patient> response = patientController.getPatientById(patientId);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(patient, response.getBody());
+        // Act & Assert
+        mockMvc.perform(get("/api/patients/{id}", patientId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Max Mustermann"))
+                .andExpect(jsonPath("$.email").value("mustermann@example.com"));
     }
 
     @Test
-    void getPatientById_shouldReturnNotFoundWhenPatientNotExist() {
+    void getPatientById_shouldReturnNotFoundWhenPatientDoesNotExist() throws Exception {
         // Arrange
         Long patientId = 1L;
 
         when(patientenService.getPatientById(patientId)).thenReturn(Optional.empty());
 
-        // Act
-        ResponseEntity<Patient> response = patientController.getPatientById(patientId);
-
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertNull(response.getBody());
+        // Act & Assert
+        mockMvc.perform(get("/api/patients/{id}", patientId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    void login_shouldReturnSuccessForValidCredentials() {
+    void login_shouldReturnOkWhenCredentialsAreValid() throws Exception {
         // Arrange
-        String username = "johndoe";
+        String username = "max_muster";
         String password = "password";
-        Patient patient = new Patient(1L, "John Doe", false, "john.doe@example.com", "1990-01-01", "123 Main St", username, password);
+        Patient mockPatient = new Patient(1L, "Max Mustermann", false, "123 Main St", "1990-01-01", "mustermann@example.com", username, password);
 
-        when(patientenService.getPatientByUsername(username)).thenReturn(Optional.of(patient));
+        when(patientenService.getPatientByUsername(username)).thenReturn(Optional.of(mockPatient));
 
-        // Act
-        ResponseEntity<String> response = patientController.login(username, password);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Logged in as: normal", response.getBody());
+        // Act & Assert
+        mockMvc.perform(post("/api/patients/login")
+                        .param("username", username)
+                        .param("password", password)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Logged in as: normal"));
     }
 
     @Test
-    void login_shouldReturnUnauthorizedForInvalidCredentials() {
+    void login_shouldReturnUnauthorizedWhenCredentialsAreInvalid() throws Exception {
         // Arrange
-        String username = "johndoe";
+        String username = "max_muster";
         String password = "wrongpassword";
-        Patient patient = new Patient(1L, "John Doe", false, "john.doe@example.com", "1990-01-01", "123 Main St", username, "password");
+        Patient mockPatient = new Patient(1L, "Max Mustermann", false, "123 Main St", "1990-01-01", "mustermann@example.com", username, "correctpassword");
 
-        when(patientenService.getPatientByUsername(username)).thenReturn(Optional.of(patient));
+        when(patientenService.getPatientByUsername(username)).thenReturn(Optional.of(mockPatient));
 
-        // Act
-        ResponseEntity<String> response = patientController.login(username, password);
-
-        // Assert
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Invalid username or password", response.getBody());
+        // Act & Assert
+        mockMvc.perform(post("/api/patients/login")
+                        .param("username", username)
+                        .param("password", password)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Invalid username or password"));
     }
 
     @Test
-    void register_shouldCreateNewPatient() {
+    void register_shouldCreateNewPatient() throws Exception {
         // Arrange
-        String name = "John Doe";
-        String email = "john.doe@example.com";
-        String username = "johndoe";
+        String name = "Max Mustermann";
+        String email = "mustermann@example.com";
+        String username = "max_muster";
         String password = "password";
         String address = "123 Main St";
         String birthDate = "1990-01-01";
-
         Long id = 1L;
+
         when(patientenService.generateRandomId()).thenReturn(id);
+        Patient newPatient = new Patient(id, name, false, address, birthDate, email, username, password);
 
-        // Act
-        ResponseEntity<String> response = patientController.register(name, email, username, password, address, birthDate);
+        when(patientenService.savePatient(any(Patient.class))).thenReturn(newPatient);
 
-        // Assert
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Patient registered successfully", response.getBody());
+        // Act & Assert
+        mockMvc.perform(post("/api/patients/register")
+                        .param("name", name)
+                        .param("email", email)
+                        .param("username", username)
+                        .param("password", password)
+                        .param("address", address)
+                        .param("birthDate", birthDate)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Patient registered successfully"));
     }
 
     @Test
-    void register_shouldReturnBadRequestForMissingParameters() {
-        // Arrange
-        String name = "John Doe";
-        String email = "john.doe@example.com";
-        String username = "johndoe";
-        String password = "password";
-
-        // Missing 'address' and 'birthDate'
-
-        // Act
-        ResponseEntity<String> response = patientController.register(name, email, username, password, null, null);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Missing address or birthDate for Patient", response.getBody());
+    void register_shouldReturnBadRequestWhenParametersAreMissing() throws Exception {
+        // Act & Assert
+        mockMvc.perform(post("/api/patients/register")
+                        .param("name", "Max Mustermann")
+                        .param("email", "mustermann@example.com")
+                        .param("username", "max_muster")
+                        .param("password", "password")
+                        // address and birthDate are missing
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Missing address or birthDate for Patient"));
     }
 }

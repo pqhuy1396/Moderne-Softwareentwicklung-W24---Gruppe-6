@@ -1,36 +1,36 @@
 package com.gruppe6.econsult.Anfragenverwaltung.application.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Optional;
-
 import com.gruppe6.econsult.Anfragenverwaltung.domain.model.Anfrage;
 import com.gruppe6.econsult.Arztverwaltung.application.service.ArztService;
 import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
 import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
 import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
+import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Optional;
 
 @Service
 public class PdfExportAnfrageService {
 
-    @Autowired
-    private AnfrageService anfrageService;
+    private final AnfrageService anfrageService;
 
-    @Autowired
-    private ArztService arztService;
+    private final ArztService arztService;
 
-    @Autowired
-    private PatientenService patientenService;
+    private final PatientenService patientenService;
+
+    public PdfExportAnfrageService(AnfrageService anfrageService, ArztService arztService, PatientenService patientenService) {
+        this.anfrageService = anfrageService;
+        this.arztService = arztService;
+        this.patientenService = patientenService;
+    }
 
     public byte[] exportAnfrageToPdf(Long anfrageId) throws IOException {
         Optional<Anfrage> anfrageOpt = anfrageService.getAnfrageById(anfrageId);

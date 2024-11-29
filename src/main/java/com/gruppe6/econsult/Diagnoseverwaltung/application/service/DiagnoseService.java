@@ -4,7 +4,6 @@ import com.gruppe6.econsult.Anfragenverwaltung.domain.model.Anfrage;
 import com.gruppe6.econsult.Anfragenverwaltung.infrastructure.repository.AnfrageRepository;
 import com.gruppe6.econsult.Diagnoseverwaltung.domain.model.Diagnose;
 import com.gruppe6.econsult.Diagnoseverwaltung.infrastructure.repository.DiagnoseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -15,11 +14,14 @@ import java.util.Optional;
 @Service
 public class DiagnoseService {
 
-    @Autowired
-    private DiagnoseRepository diagnoseRepository;
+    private final DiagnoseRepository diagnoseRepository;
 
-    @Autowired
-    private AnfrageRepository anfrageRepository;
+    private final AnfrageRepository anfrageRepository;
+
+    public DiagnoseService(DiagnoseRepository diagnoseRepository, AnfrageRepository anfrageRepository) {
+        this.diagnoseRepository = diagnoseRepository;
+        this.anfrageRepository = anfrageRepository;
+    }
 
     // Erstellt eine neue Diagnose, falls die Anfrage existiert
     public Diagnose createDiagnose(Long anfrageId, String diagnoseText) {

@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnfrageService {
 
-    @Autowired
-    private AnfrageRepository anfrageRepository;
+    private final AnfrageRepository anfrageRepository;
+
+    public AnfrageService(AnfrageRepository anfrageRepository) {
+        this.anfrageRepository = anfrageRepository;
+    }
 
     public Anfrage createAnfrage(Long patientId, Long arztId, String foto, String beschreibung) {
         Anfrage anfrage = new Anfrage(new Date(), foto, beschreibung, false, patientId, arztId);
