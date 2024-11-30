@@ -63,7 +63,7 @@ sonar {
   properties {
     property "sonar.projectKey", "pqhuy1396_econsult"
     property "sonar.organization", "pqhuy1396"
-	property "sonar.login", "67281f8cb024a8e726408c8d242027b0d7fcc272"
+	property "sonar.login", ""
     property "sonar.host.url", "https://sonarcloud.io"
 	property "sonar.test", "src/test"
   }
