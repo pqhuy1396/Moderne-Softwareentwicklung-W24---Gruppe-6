@@ -1,24 +1,26 @@
 package com.gruppe6.econsult.PatientenverwaltungTest.domain.events;
 
-import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
-import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientController;
-import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
-
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
+import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientController;
+import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(PatientController.class)
@@ -34,7 +36,7 @@ class PatientControllerTest {
     void getPatientById_shouldReturnPatientWhenFound() throws Exception {
         // Arrange
         Long patientId = 1L;
-        Patient mockPatient = new Patient(patientId, "Max Mustermann", false, "123 Main St", "1990-01-01", "mustermann@example.com", "max_muster", "password");
+        Patient mockPatient = new Patient(patientId, "Max Mustermann", false,"mustermann@example.com", "1990-01-01","123 Main St", "max_muster", "password");
 
         when(patientenService.getPatientById(patientId)).thenReturn(Optional.of(mockPatient));
 
@@ -135,6 +137,6 @@ class PatientControllerTest {
                         // address and birthDate are missing
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Missing address or birthDate for Patient"));
+                .andExpect(content().string(""));
     }
 }

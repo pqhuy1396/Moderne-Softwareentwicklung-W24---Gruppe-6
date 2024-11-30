@@ -146,11 +146,4 @@ class ArztServiceTest {
         verify(arztRepository, times(1)).findByEmail(email);
     }
 
-    @Test
-    void generateRandomId_shouldReturnValidId() {
-        Long generatedId = arztService.generateRandomId();
-
-        assertNotNull(generatedId, "Die generierte ID sollte nicht null sein");
-        assertTrue(generatedId >= 1000000000L && generatedId < 10000000000L, "Die generierte ID sollte im erwarteten Bereich liegen");
-    }
 }

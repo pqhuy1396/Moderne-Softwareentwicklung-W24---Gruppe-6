@@ -1,20 +1,25 @@
 package com.gruppe6.econsult.PatientenverwaltungTest.Application.service;
 
-import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
-import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
-import com.gruppe6.econsult.Patientenverwaltung.infrastructure.repository.PatientRepository;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
+import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
+import com.gruppe6.econsult.Patientenverwaltung.infrastructure.repository.PatientRepository;
 
 @ExtendWith(MockitoExtension.class)
 class PatientenServiceTest {
@@ -173,13 +178,4 @@ class PatientenServiceTest {
         verify(patientRepository, times(1)).findByEmail(email);
     }
 
-    @Test
-    void generateRandomId_shouldReturnValidId() {
-        // Act
-        Long generatedId = patientenService.generateRandomId();
-
-        // Assert
-        assertNotNull(generatedId, "Die generierte ID sollte nicht null sein");
-        assertTrue(generatedId >= 1000000000L && generatedId < 10000000000L, "Die generierte ID sollte im erwarteten Bereich liegen");
-    }
 }

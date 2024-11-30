@@ -1,28 +1,43 @@
 package com.gruppe6.econsult.ArztverwaltungTest.domain.events;
 
-import com.gruppe6.econsult.Arztverwaltung.application.service.ArztService;
-import com.gruppe6.econsult.Arztverwaltung.domain.events.ArztController;
-import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import org.mockito.InjectMocks;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.gruppe6.econsult.Arztverwaltung.application.service.ArztService;
+import com.gruppe6.econsult.Arztverwaltung.domain.events.ArztController;
+import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
 
 @ExtendWith(MockitoExtension.class)
+@WebMvcTest(ArztController.class)
 class ArztControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private ArztService arztService;
 
     @InjectMocks
@@ -138,5 +153,65 @@ class ArztControllerTest {
         ResponseEntity<Void> response = arztController.deleteArztById(1L);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+      
+    @Test
+    void testLoginSuccess() throws Exception {
+        // Mocking the ArztService response
+        Arzt arzt = new Arzt(1L, "Dr. Smith", true, "Cardiology", "123456", "dr.smith@example.com", "drsmith", "password");
+        when(arztService.getArztByUsername("drsmith")).thenReturn(Optional.of(arzt));
+
+        // Perform POST /login
+        mockMvc.perform(post("/api/arzt//login")
+                        .param("username", "drsmith")
+                        .param("password", "password")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Logged in as: special"));
+    }
+
+    @Test
+    void testLoginFailure() throws Exception {
+        // Mocking the ArztService response
+        when(arztService.getArztByUsername("wronguser")).thenReturn(Optional.empty());
+
+        // Perform POST /login
+        mockMvc.perform(post("/api/arzt/login")
+                        .param("username", "wronguser")
+                        .param("password", "wrongpass")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Invalid username or password"));
+    }
+
+    @Test
+    void testRegisterSuccess() throws Exception {
+        // Mocking the ArztService response
+        when(arztService.generateRandomId()).thenReturn(1L);
+
+        // Perform POST /register
+        mockMvc.perform(post("/api/arzt/register")
+                        .param("name", "Dr. Smith")
+                        .param("email", "dr.smith@example.com")
+                        .param("username", "drsmith")
+                        .param("password", "password")
+                        .param("fachrichtung", "Cardiology")
+                        .param("lizenznummer", "123456")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Arzt registered successfully"));
+    }
+
+    @Test
+    void testRegisterMissingFields() throws Exception {
+        // Perform POST /register with missing fachrichtung and lizenznummer
+        mockMvc.perform(post("/api/arzt/register")
+                        .param("name", "Dr. Smith")
+                        .param("email", "dr.smith@example.com")
+                        .param("username", "drsmith")
+                        .param("password", "password")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(""));
     }
 }
