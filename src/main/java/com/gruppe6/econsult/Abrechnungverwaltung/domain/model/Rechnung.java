@@ -30,6 +30,9 @@ public class Rechnung {
     }
 
     // Getter und Setter
+     public Long getId() {
+        return id;
+    }
     public Date getDatum() { return datum; }
     public String getRechnungNummer() { return rechnungNummer; }
     public Long getIdPatient() { return idPatient; }
@@ -38,6 +41,9 @@ public class Rechnung {
     public void setDatum(Date datum) { this.datum = datum; }
     public void setRechnungNummer(String rechnungNummer) { this.rechnungNummer = rechnungNummer; }
     public void setIdPatient(Long idPatient) { this.idPatient = idPatient; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setBetrag(double betrag) {
         this.betrag = betrag;

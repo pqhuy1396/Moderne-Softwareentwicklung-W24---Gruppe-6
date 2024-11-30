@@ -1,18 +1,13 @@
 package com.gruppe6.econsult.Patientenverwaltung.domain.events;
 
-import java.util.Optional;
-
 import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
 import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 
@@ -20,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/patients")
 public class PatientController {
 
+    private final PatientenService patientenService;
+
     @Autowired
-    private PatientenService patientenService;
+    public PatientController(PatientenService patientenService) {
+        this.patientenService = patientenService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
         Optional<Patient> patient = patientenService.getPatientById(id);
-        if (patient.isPresent()) {
-            return ResponseEntity.ok(patient.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        return patient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping("/login")

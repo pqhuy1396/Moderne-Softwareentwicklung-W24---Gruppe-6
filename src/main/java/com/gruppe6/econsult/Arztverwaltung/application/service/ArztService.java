@@ -1,21 +1,22 @@
 package com.gruppe6.econsult.Arztverwaltung.application.service;
 
+import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
+import com.gruppe6.econsult.Arztverwaltung.infrastructure.repository.ArztRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 
-import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
-import com.gruppe6.econsult.Arztverwaltung.infrastructure.repository.ArztRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 @Service
 public class ArztService {
 
-    @Autowired
-    private ArztRepository arztRepository;
+    private final ArztRepository arztRepository;
+
+    public ArztService(ArztRepository arztRepository) {
+        this.arztRepository = arztRepository;
+    }
 
     public Optional<Arzt> getArztById(Long id) {
         return arztRepository.findArztById(id);
