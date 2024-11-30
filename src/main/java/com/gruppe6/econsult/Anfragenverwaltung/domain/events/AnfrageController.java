@@ -27,7 +27,7 @@ public class AnfrageController {
 
     @Autowired
     private AnfrageService anfrageService;
-    private com.gruppe6.econsult.Anfragenverwaltung.application.service.PdfExportAnfrageService PdfExportAnfrageService;
+    private PdfExportAnfrageService PdfExportAnfrageService;
 
     @PostMapping("/create")
     public ResponseEntity<Anfrage> createAnfrage(
