@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.gruppe6.econsult.Arztverwaltung.application.service.ArztService;
 import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +28,14 @@ public class ArztController {
     private ArztService arztService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Arzt> login(@RequestParam String username, @RequestParam String password) {
         Optional<Arzt> arzt = arztService.getArztByUsername(username);
         if (arzt.isPresent() && arzt.get().getPassword().equals(password)) {
             if (arzt.get().getRoll()) { // Role: doctor
-                return ResponseEntity.ok("Logged in as: special");
+                  return ResponseEntity.ok(arzt.get());
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     // Register API: Registers a new Arzt

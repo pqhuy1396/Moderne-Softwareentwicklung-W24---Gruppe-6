@@ -29,14 +29,14 @@ public class PatientController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Patient> login(@RequestParam String username, @RequestParam String password) {
         Optional<Patient> patient = patientenService.getPatientByUsername(username);
         if (patient.isPresent() && patient.get().getPassword().equals(password)) {
             if (!patient.get().getRoll()) { // Role: patient
-                return ResponseEntity.ok("Logged in as: normal");
+                return ResponseEntity.ok(patient.get());
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     // Register API: Registers a new Patient
