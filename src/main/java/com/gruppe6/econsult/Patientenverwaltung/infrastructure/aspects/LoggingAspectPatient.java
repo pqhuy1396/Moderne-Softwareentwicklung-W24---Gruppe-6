@@ -16,7 +16,7 @@ public class LoggingAspectPatient {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspectPatient.class);
 
-    @Pointcut("within(com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientController)")
+    @Pointcut("within(com.gruppe6.econsult.Patientenverwaltung.domain.events.*)")
     public void patientControllerMethods() {}
 
     @Before("patientControllerMethods()")

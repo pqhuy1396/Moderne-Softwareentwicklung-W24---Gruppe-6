@@ -2,10 +2,6 @@ package com.gruppe6.econsult.PatientenverwaltungTest.infrastructure.aspects;
 
 import java.util.Optional;
 
-import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientController;
-import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
-import com.gruppe6.econsult.Patientenverwaltung.infrastructure.aspects.LoggingAspectPatient;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,51 +13,55 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.gruppe6.econsult.Patientenverwaltung.application.service.PatientenService;
+import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientGet;
+import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientLogin;
+import com.gruppe6.econsult.Patientenverwaltung.domain.events.PatientRegister;
+import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
 
 @SpringBootTest
 class LoggingAspectPatientTest {
 
     @Autowired
-    private PatientController patientController; 
+    private PatientGet patientGetController;
+
+    @Autowired
+    private PatientLogin patientLoginController;
+
+    @Autowired
+    private PatientRegister patientRegisterController;
 
     @MockBean
-    private PatientenService mockPatientController; 
+    private PatientenService mockPatientenService;
 
     @Test
-    void testLogBefore() {
-        // Arrange
+    void testLogBeforeGetPatientById() {
         Patient patient = new Patient(1L, "John Doe", false, "email@example.com", "1990-01-01", "123 Street", "johndoe", "password");
-        when(mockPatientController.getPatientById(1L)).thenReturn(Optional.of(patient));
+        when(mockPatientenService.getPatientById(1L)).thenReturn(Optional.of(patient));
 
-        // Act
-        ResponseEntity<Patient> response = patientController.getPatientById(1L);
+        ResponseEntity<Patient> response = patientGetController.getPatientById(1L);
 
-        // Assert
-        verify(mockPatientController).getPatientById(1L);
+        verify(mockPatientenService).getPatientById(1L);
         assertEquals(patient, response.getBody());
     }
 
     @Test
-    void testLogAfterReturning() {
-        // Arrange
+    void testLogBeforeLogin() {
         Patient patient = new Patient(1L, "John Doe", false, "email@example.com", "1990-01-01", "123 Street", "johndoe", "password");
-        when(mockPatientController.getPatientById(1L)).thenReturn(Optional.of(patient));
+        when(mockPatientenService.getPatientByUsername("johndoe")).thenReturn(Optional.of(patient));
 
-        // Act
-        ResponseEntity<Patient> response = patientController.getPatientById(1L);
+        ResponseEntity<Patient> response = patientLoginController.login("johndoe", "password");
 
-        // Assert
-        verify(mockPatientController).getPatientById(1L);
+        verify(mockPatientenService).getPatientByUsername("johndoe");
         assertEquals(patient, response.getBody());
     }
 
     @Test
-    void testLogAfterThrowing() {
-        // Arrange
-        when(mockPatientController.getPatientById(1L)).thenThrow(new RuntimeException("Test Exception"));
+    void testLogBeforeRegisterPatient() {
+        when(mockPatientenService.generateRandomId()).thenReturn(1L);
 
-        // Act & Assert
-        assertThrows(RuntimeException.class, () -> patientController.getPatientById(1L));
-        verify(mockPatientController).getPatientById(1L);
+        ResponseEntity<String> response = patientRegisterController.register("John Doe", "email@example.com", "johndoe", "password", "123 Street", "1990-01-01");
+
+        verify(mockPatientenService).savePatient(any(Patient.class));
+        assertEquals("Patient registered successfully", response.getBody());
     }
 }

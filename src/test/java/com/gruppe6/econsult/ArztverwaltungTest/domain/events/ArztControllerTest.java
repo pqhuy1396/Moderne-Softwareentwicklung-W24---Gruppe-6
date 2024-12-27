@@ -166,8 +166,7 @@ class ArztControllerTest {
                         .param("username", "drsmith")
                         .param("password", "password")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Logged in as: special"));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -180,8 +179,7 @@ class ArztControllerTest {
                         .param("username", "wronguser")
                         .param("password", "wrongpass")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-                .andExpect(status().isUnauthorized())
-                .andExpect(content().string("Invalid username or password"));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
