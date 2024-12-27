@@ -1,7 +1,7 @@
 package com.gruppe6.econsult.ArztverwaltungTest.infrastructure.aspects;
 
 import com.gruppe6.econsult.Arztverwaltung.application.service.ArztService;
-import com.gruppe6.econsult.Arztverwaltung.domain.events.ArztController;
+import com.gruppe6.econsult.Arztverwaltung.domain.events.GetArztById;
 import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
 import com.gruppe6.econsult.Arztverwaltung.infrastructure.aspects.LoggingAspectArzt;
 
@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 class LoggingAspectArztTest {
 
-    @Autowired
-    private ArztController arztController;
+   @Autowired
+    private GetArztById getArztByIdController;
 
     @MockBean
     private ArztService arztService;
@@ -37,7 +37,7 @@ class LoggingAspectArztTest {
         when(arztService.getArztById(arztId)).thenReturn(Optional.of(mockArzt));
 
         // Act
-        ResponseEntity<Arzt> response = arztController.getArztById(arztId);
+        ResponseEntity<Arzt> response = getArztByIdController.getArztById(arztId);
 
         // Assert
         verify(arztService).getArztById(arztId);
@@ -51,7 +51,7 @@ class LoggingAspectArztTest {
         when(arztService.getArztById(arztId)).thenThrow(new RuntimeException("Test Exception"));
 
         // Act & Assert
-        assertThrows(RuntimeException.class, () -> arztController.getArztById(arztId));
+        assertThrows(RuntimeException.class, () -> getArztByIdController.getArztById(arztId));
         verify(arztService).getArztById(arztId);
     }
 }
