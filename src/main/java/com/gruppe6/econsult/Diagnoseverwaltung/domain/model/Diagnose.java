@@ -13,12 +13,12 @@ public class Diagnose {
 
     @OneToOne
     @JoinColumn(name = "anfrage_id", nullable = false)
-    private Anfrage anfrage; // Verknüpft die Diagnose mit einer Anfrage
+    private Anfrage anfrage; 
 
-    private String diagnoseText; // Speichert den Text der Diagnose
-    private Date erstelltAm; // Speichert das Erstellungsdatum
+    private String diagnoseText; 
+    private Date erstelltAm; 
 
-    private Long arztId; // Identifiziert den zugehörigen Arzt
+    private Long arztId; 
 
     // Standardkonstruktor
     public Diagnose() {

@@ -15,8 +15,8 @@ public class Rechnung {
     private Long id;
 
     private Date datum;
-    private String rechnungNummer; // Eindeutige Rechnungsnummer
-    private Long idPatient; // Verknüpfung zum Patienten
+    private String rechnungNummer; 
+    private Long idPatient; 
     private double betrag;
 
     // Konstruktoren
