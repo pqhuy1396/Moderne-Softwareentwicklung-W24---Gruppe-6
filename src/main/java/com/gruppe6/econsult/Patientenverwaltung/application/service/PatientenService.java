@@ -1,14 +1,15 @@
 package com.gruppe6.econsult.Patientenverwaltung.application.service;
 
 
-import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
-import com.gruppe6.econsult.Patientenverwaltung.infrastructure.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gruppe6.econsult.Patientenverwaltung.domain.model.Patient;
+import com.gruppe6.econsult.Patientenverwaltung.infrastructure.repository.PatientRepository;
 
 @Service
 public class PatientenService {
@@ -44,7 +45,8 @@ public class PatientenService {
         return patientRepository.findByEmail(email);
     }
 
-    public Long generateRandomId() {
-        return 1000000000L + new Random().nextLong() % 9000000000L;
+    public Optional<Long> generateRandomId() {
+        return Optional.of(new Random().longs(1000000000L,10000000000L).findFirst().orElseThrow());
     }
+
 }

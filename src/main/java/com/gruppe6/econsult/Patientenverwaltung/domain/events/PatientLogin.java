@@ -1,7 +1,5 @@
 package com.gruppe6.econsult.Patientenverwaltung.domain.events;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +24,10 @@ public class PatientLogin {
 
     @PostMapping("/login")
     public ResponseEntity<Patient> login(@RequestParam String username, @RequestParam String password) {
-        Optional<Patient> patient = patientenService.getPatientByUsername(username);
-        if (patient.isPresent() && patient.get().getPassword().equals(password)) {
-            if (!patient.get().getRoll()) { 
-                return ResponseEntity.ok(patient.get());
-            }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return patientenService.getPatientByUsername(username)
+        .filter(p -> p.getPassword().equals(password))
+        .filter(p -> !p.getRoll())
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 }

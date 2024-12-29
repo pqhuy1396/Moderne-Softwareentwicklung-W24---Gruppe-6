@@ -1,7 +1,5 @@
 package com.gruppe6.econsult.Patientenverwaltung.domain.events;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +24,8 @@ public class PatientGet {
 
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
-        Optional<Patient> patient = patientenService.getPatientById(id);
-        return patient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    return patientenService.getPatientById(id)
+                           .map(ResponseEntity::ok)
+                           .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
