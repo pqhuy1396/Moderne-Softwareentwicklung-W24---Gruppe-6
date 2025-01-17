@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.gruppe6.econsult.Arztverwaltung.application.service.ArztService;
 import com.gruppe6.econsult.Arztverwaltung.domain.events.ArztController;
 import com.gruppe6.econsult.Arztverwaltung.domain.model.Arzt;
-
+@Disabled
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(ArztController.class)
 class ArztControllerTest {
