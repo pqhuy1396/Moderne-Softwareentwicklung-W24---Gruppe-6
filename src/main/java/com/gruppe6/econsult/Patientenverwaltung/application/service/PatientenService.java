@@ -45,8 +45,10 @@ public class PatientenService {
         return patientRepository.findByEmail(email);
     }
 
-    public Optional<Long> generateRandomId() {
-        return Optional.of(new Random().longs(1000000000L,10000000000L).findFirst().orElseThrow());
+    public Long generateRandomId() {
+        return new Random().longs(1000000000L, 10000000000L)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Unable to generate random ID"));
     }
 
 }
